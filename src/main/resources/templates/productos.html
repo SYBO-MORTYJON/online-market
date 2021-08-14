@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Productos</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/forms.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}"></link>
+</head>
+<body>
+	<div th:replace="layout/navbar.html :: navbar"></div>
+	<!-- style="text-align: justify;" -->
+	<div class="container-fluid">
+		<div class="col-xs-12" style="height: 30px;"></div>
+		<h2>Maxsulotlar</h2>
+		<button type="button" class="btn btn-success" data-toggle="modal"
+			data-target="#addProductoModal">
+			Agregar <i class="fa fa-plus"></i>
+		</button>
+		<a th:href="@{/producto/ultimo}" class="btn btn-danger" id="delRef">Oxirgi maxsulot</a>
+		<div class="row">
+			<div class="col-12">
+				<!-- Modal for Agregar Producto -->
+				<div class="modal fade" id="addProductoModal" tabindex="-1"
+					role="dialog" aria-labelledby="addClassModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="agregarProductoModalLabel">Yangi maxsulot</h4>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form th:action="@{/producto/guardar}" th:object="${producto}"
+									method="POST" class="form_content"
+									enctype="multipart/form-data">
+									<div class="form_header"></div>
+									<br>
+									<div class="form-group row">
+										<label for="nombre" class="col-sm-2 col-form-label">Ism</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="nombre"
+												placeholder="Nombre" th:field="*{nombre}">
+											<span th:if="${#fields.hasErrors('nombre')}"
+												class="help-block" th:errors="*{nombre}"></span>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="precio" class="col-sm-2 col-form-label">Narx</label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control" id="precio"
+												placeholder="Precio" th:field="*{precio}" th:required="true"
+												step="any">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="marca" class="col-sm-2 col-form-label">Brend</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="marca"
+												placeholder="Marca" th:field="*{marca}" th:required="true">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="stock" class="col-sm-2 col-form-label">Aksiya</label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control" id="stock"
+												placeholder="Stock" th:field="*{stock}" th:required="true">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="descripcion">Description</label>
+										<textarea class="form-control" id="descripcion" rows="3"
+											th:field="*{descripcion}" th:required="true"></textarea>
+									</div>
+									<div class="form-group row">
+										<label for="file" class="col-sm-4 col-form-label">
+											Rasm yuklash</label>
+										<div class="col-sm-10">
+											<input type="file" name="file" class="form-control-file"
+												id="file"
+												accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg"
+												onchange="loadFile(event)">
+											<img id="output" style="padding-top: 2px; width: 146px;" />
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<button type="submit" class="btn btn-primary form_button">Save</button>
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Delete</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table table-bordered table-responsive p-3">
+					<thead class="thead-dark">
+						<tr class="text-center">
+							<th style="width: 6%">ID</th>
+							<th>Ism </th>
+							<th>Brend</th>
+							<th>Description</th>
+							<th style="width: 10%">Rasm</th>
+							<th style="width: 11%">Narx</th>
+							<th>Alsiya</th>
+							<th style="width: 10%">Buy</th>
+							<th style="width: 9%">Edit</th>
+							<th style="width: 10%">Delet</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="producto : ${productos}">
+							<td th:text="${producto.codigo}"></td>
+							<td th:text="${producto.nombre}"></td>
+							<td th:text="${producto.marca}"></td>
+							<td th:text="${producto.descripcion}"></td>
+							<td><img class="card-img-top m-auto"
+								th:src="*{'data:image/png;base64,'+producto.imagen}"></td>
+							<td>$ <span
+								th:text="${#numbers.formatDecimal(producto.precio, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
+							<td th:text="${producto.stock}"></td>
+							<td><a data-toggle="modal"
+								data-target="#comprarProductoModal" class="btn btn-primary"
+								th:attr="data-target='#comprarProductoModal'+${producto.codigo}">Buy<i
+									class="fa fa-shopping-cart"></i>
+							</a>
+								<div class="modal fade"
+									th:id="comprarProductoModal+${producto.codigo}"
+									id="comprarProductoModal" tabindex="-1" role="dialog"
+									aria-labelledby="comprarModalCenterTitle" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title" id="comprarModalCenterTitle">Buy product</h4>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<p class="alert alert-danger">
+													Comprar producto <span th:text="${producto.nombre}"></span>?
+												</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Bekor qilish</button>
+												<a th:href="@{/comprar/{id}(id=${producto.codigo})}"
+													class="btn btn-primary" id="delRef">Buy </a>
+											</div>
+										</div>
+									</div>
+								</div></td>
+							<td><a data-toggle="modal" data-target="#updateModal"
+								class="btn btn-warning"
+								th:attr="data-target='#updateModal'+${producto.codigo}">Edit
+									<i class="fa fa-edit"></i>
+							</a> <!--#Modal form for Producto update-->
+								<div class="myFormUpdate">
+									<form th:action="@{/update}" method="POST" class="form_content"
+										enctype="multipart/form-data">
+										<div class="modal fade" th:id="updateModal+${producto.codigo}"
+											id="updateModal" tabindex="-1" role="dialog"
+											aria-labelledby="updateModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 class="modal-title" id="updateModalLabel">Maxsulotni yangilash</h4>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<div class="form-group">
+															<input type="hidden" class="form-control" id="id"
+																th:name="codigo" th:value="*{producto.codigo}" />
+														</div>
+														<div class="form-group">
+															<label for="titulo" class="col-form-label">Ism</label>
+															<input type="text" class="form-control" id="titulo"
+																th:name="nombre" th:value="*{producto.nombre}" />
+														</div>
+														<div class="form-group">
+															<label for="marca" class="col-form-label">Brend</label>
+															<input type="text" class="form-control" id="marca"
+																th:name="marca" th:value="*{producto.marca}">
+														</div>
+														<div class="form-group">
+															<label for="marca" class="col-form-label">Narx</label>
+															<input type="number" class="form-control" id="precio"
+																th:name="precio" th:value="*{producto.precio}"
+																step="any">
+														</div>
+														<div class="form-group">
+															<label for="fecha" class="col-form-label">Aksiya</label>
+															<input type="number" class="form-control" id="fecha"
+																th:name="stock" th:value="*{producto.stock}" />
+														</div>
+														<div class="form-group">
+															<label for="descripcion" class="col-form-label">Tavsif</label>
+															<input type="text" class="form-control" id="descripcion"
+																th:name="descripcion" th:value="*{producto.descripcion}" />
+														</div>
+														<div class="form-group">
+															<!-- La magia -->
+															<input type="hidden" class="form-control" id="imagen"
+																th:name="imagen" th:value="*{producto.imagen}" />
+															<img width="100px" class="card-img-top m-auto"
+																th:src="*{'data:image/png;base64,'+producto.imagen}"
+																id="imagen" th:field="*{imagen}">
+															<label for="file" class="bttn"> Uploud Photo</label>
+															<!-- HAY ALGO RARO CON TH:NAME ACA JAJA! -->
+															<input type="file" name="file" class="form-control-file"
+																accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg">
+														</div>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Yopmoq</button>
+														<input type="submit" class="btn btn-primary"
+															value="Guardar" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div></td>
+							<td><a data-toggle="modal"
+								data-target="#removeProductoModal" class="btn btn-danger delBtn"
+								th:attr="data-target='#removeProductoModal'+${producto.codigo}">Delete
+									<i class="fa fa-trash"></i>
+							</a> <!-- #Modal for removing Producto -->
+								<div class="modal fade"
+									th:id="removeProductoModal+${producto.codigo}"
+									id="removeProductoModal" tabindex="-1" role="dialog"
+									aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title" id="removeModalCenterTitle">Delete</h4>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<p class="alert alert-danger">
+													Siz, albatta, mahsulotni olib tashlamoqchisiz <span
+														th:text="${producto.nombre}"></span>?
+												</p>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Bekor qilish</button>
+												<a th:href="@{/delete/{id}(id=${producto.codigo})}"
+													class="btn btn-danger" id="delRef">delete</a>
+											</div>
+										</div>
+									</div>
+								</div></td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- Pagination -->
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						<nav aria-label="Pagination">
+							<ul class="pagination justify-content-center">
+								<li class="page-item"
+									th:classappend="${prev == 0 ? 'disabled': ''}"><a
+									class="page-link" th:href="@{|/productos/?page=${prev}|}">Oldingi</a></li>
+								<li class="page-item" th:each="page : ${pages}"
+									th:classappend="${current == page ? 'active': ''}"><a
+									class="page-link" th:href="@{|/productos/?page=${page}|}"
+									th:text="${page}"></a></li>
+								<li class="page-item"
+									th:classappend="${current == last ? 'disabled': ''}"><a
+									class="page-link" th:href="@{|/productos/?page=${next}|}">Keyingisi</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-md-2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="layout/footer :: footer"></div>
+	<script type="text/javascript">
+	var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+    $('#addProductoModal').bootstrapValidator({
+        message: 'This value is not valid',
+        excluded: [':disabled'],
+        ...
+    });
+});
+</script>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

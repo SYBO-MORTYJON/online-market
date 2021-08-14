@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Productos</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/forms.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+<body>
+	<div th:replace="layout/header.html :: header"></div>
+	<div th:replace="layout/navbar.html :: navbar"></div>
+	<br>
+	<div class="container-fluid">
+		<!-- style="text-align: justify;" -->
+		<br>
+		<h1>Maxsulotlar</h1>
+		<div class="col-xs-12" style="height: 30px;"></div>
+		<div class="row col-md-12">
+			<div class="col-md-3" th:each="producto, i : ${productos}"
+				th:unless="${i.index > 36}">
+				<a id="non-effecteed-link" th:href="@{/compra/(id=${i.index})}">
+					<div class="card h-100 box__card">
+						<img class="card-img-top"
+							th:src="*{'data:image/png;base64,'+producto.imagen}"
+							alt="Card image cap">
+						<div class="card-body">
+							<h6 class="card-title" th:text="${producto.nombre}"></h6>
+							<p class="card-text" th:text="'Precio: $' + ${producto.precio}"></p>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div th:replace="layout/footer :: footer"></div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

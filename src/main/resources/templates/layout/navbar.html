@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<nav th:fragment="navbar"
+		class="col-12 contenedor-header navbar
+		navbar-expand-lg navbar-dark bg-dark bg-gradientsticky-top">
+		<div class="container justify-content: end;">
+			<a class="navbar-brand" th:href="@{/}">Main</a>
+			<button class="navbar-toggler border-0" type="button"
+				data-toggle="collapse" data-target="#exCollapsingNavbar">
+				&#9776;</button>
+			<div class="collapse navbar-collapse" id="exCollapsingNavbar">
+				<ul class="nav navbar-nav ml-auto">
+					<li class="nav-item"><a th:href="@{/cliente/nuevo}"
+						class="nav-link">Mijozlarni qoshish</a></li>
+					<li class="nav-item"><a th:href="@{/cliente/lista}"
+						class="nav-link">Xaridorlar</a></li>
+					<li class="nav-item"><a th:href="@{/producto}"
+						class="nav-link">Mahsulotlarni yuklash</a></li>
+					<li class="nav-item"><a th:href="@{/producto/ultimo}"
+						class="nav-link">Eng yangi maxsulot</a></li>
+					<li class="nav-item"><a th:href="@{/productos}"
+						class="nav-link">Mahsulotlar</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</body>
+</html>

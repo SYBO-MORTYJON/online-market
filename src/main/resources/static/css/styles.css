@@ -1,0 +1,145 @@
+@import
+	url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700&display=swap')
+	;
+
+* {
+	margin: 0;
+	/*font-family: 'Source Sans Pro';*/
+}
+
+body {
+	background-color: #e7e7e7;
+}
+
+.container-fluid{
+	min-height: 100vh;
+}
+
+/* Estilos para las cards de Bootstrap */
+.card-custom {
+	overflow: hidden;
+	min-height: 450px;
+	border: 0;
+	box-shadow: 0 0 15px rgba(10, 10, 10, 0.3);
+}
+
+.card-custom-img {
+	height: 200px;
+	min-height: 200px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	border-color: inherit;
+}
+
+/* First border-left-width setting is a fallback */
+.card-custom-img::after {
+	position: absolute;
+	content: '';
+	top: 161px;
+	left: 0;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-top-width: 40px;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	border-left-width: 545px;
+	border-left-width: calc(575px - 5vw);
+	border-top-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+	border-left-color: inherit;
+}
+
+.card-custom-avatar img {
+	border-radius: 50%;
+	box-shadow: 0 0 15px rgba(10, 10, 10, 0.3);
+	position: absolute;
+	top: 100px;
+	left: 1.25rem;
+	width: 100px;
+	height: 100px;
+}
+
+/***********************************************************
+*******	 HOME STYLE  */
+.forma-de-pago__titulo {
+	font-size: 1.2em;
+}
+
+.forma-de-pago__sub-titulo {
+	font-size: 0.9em;
+}
+
+.categoria__titulo {
+	font-size: 1.5em;
+}
+
+.categoria__sub-titulo {
+	font-size: 1.2em;
+}
+
+/* Para sacarle los efectos a ciertos links y cards tittle */
+.card-title, .card-text {
+	color: #212529;
+	text-decoration: none;
+}
+
+/***********************************************************
+*******	 Pagina COMPRAPRODUCTOS  */
+.box__card {
+	transition: box-shadow .3s;
+}
+
+.box__card:hover {
+	box-shadow: 0 0 11px rgba(33, 33, 33, .5);
+}
+
+#non-effecteed-link, #non-effecteed-link:hover {
+	color: #212529;
+	text-decoration: none;
+}
+
+/***********************************************************
+*******	 Pagina ULTIMOPRODUCTO  */
+.box__table {
+	background-color: #fff;
+	border-radius: 10px;
+}
+
+/***********************************************************
+*******	 Pagina COMPRA  */
+.compra__titulo {
+	font-size: 2em;
+}
+
+/***********************************************************
+*******	 COMPAMACHO  */
+.cookie-container {
+	position: fixed;
+	bottom: -100%;
+	left: 0px;
+	right: 0px;
+	background: #2f3640;
+	color: #f5f6fa;
+	padding: 16px 0 6px 16px;
+	box-shadow: 0 -2px 16px rgba(47, 54, 64, 0.39);
+	transition: 400ms;
+	opacity: 0.9;
+}
+
+.cookie-container.active {
+	bottom: 0;
+}
+
+.cookie-btn {
+	position: absolute;
+	color: #41a8ff;
+	background-color: transparent;
+	top: 1px;
+	right: 10px;
+	border: none;
+	font-size: 1.1rem;
+	text-transform: none;
+}

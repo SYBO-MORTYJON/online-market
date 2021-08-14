@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuevo Cliente</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div th:replace="layout/navbar :: navbar"></div>
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-md-9 my-5 shadow p-4 bg-white rounded formulario">
+				<form th:action="@{/cliente/guardar}" th:object="${cliente}"
+					method="POST" class="form_content">
+					<input type="hidden" th:field="*{id}" />
+			     	<input type="hidden" th:field="*{cuenta.id}" />
+					
+					
+					<h1 class="text-center">Yangi mijoz</h1>
+					<br>
+					<div class="form-group row">
+						<label for="tipoDocumento" class="col-sm-3 col-form-label">Yangi hujjat</label>
+						<div class="col-sm-9">
+							<select class="custom-select" id="tipoDocumento"
+								th:field="*{tipoDocumento}" th:required="true">
+								<option value="" selected>Tanlang...</option>
+								<option value="DNI">DNI</option>
+								<option value="Pasaporte">Passport</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="numeroDocumento" class="col-sm-3 col-form-label">Hujjat raqami </label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control" id="numeroDocumento"
+								placeholder="Numero de Documento" th:field="*{nroDocumento}"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="nombreApellido" class="col-sm-3 col-form-label">Ism va familiyasi</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="nombreApellido"
+								placeholder="Nombre y Apellido" th:field="*{nombreApellido}"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="email" class="col-sm-3 col-form-label">Pochta</label>
+						<div class="col-sm-9">
+							<input type="email" class="form-control" id="email"
+								placeholder="ejemplo@mail.com" th:field="*{email}"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="password" class="col-sm-3 col-form-label">Password</label>
+						<div class="col-sm-9">
+							<input type="password" class="form-control" id="password"
+								placeholder="Password" th:field="*{password}" th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="fechaNacimiento" class="col-sm-3 col-form-label">Tug'ilgan sanasi</label>
+						<div class="col-sm-9">
+							<div class="input-group date" id="fechaNacimiento">
+								<input type="date" class="form-control"
+									th:field="*{fechaNacimiento}" th:required="true" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="codigoAreaTelefono" class="col-sm-3 col-form-label">Hudu kodi</label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control" id="codigoAreaTelefono"
+								placeholder="Codigo Area" th:field="*{codigoAreaTelefono}"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="numeroTelefono" class="col-sm-3 col-form-label">Telefon</label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control" id="numeroTelefono"
+								placeholder="Telefono" th:field="*{nroTelefono}"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="fechaUltimaCompra" class="col-sm-3 col-form-label">Oxirgi xarid vaqti </label>
+						<div class="col-sm-9">
+							<div class="input-group date" id="fechaUltimaCompra">
+								<input type="date" class="form-control"
+									th:field="*{fechaUltimaCompra}" th:required="true" />
+							</div>
+						</div>
+					</div>
+					
+					
+	                <h1 class="text-center">Hisob</h1>
+					<br>
+
+       
+                      <div class="form-group row">
+						<label for="saldo" class="col-sm-3 col-form-label">Balans</label>
+						<div class="col-sm-9">
+							<input type="number" class="form-control" id="id"
+								placeholder="Saldo" th:field="*{cuenta.saldo}"
+								th:required="true">
+						</div>
+					</div>
+
+                     <div class="form-group row">
+						<label for="fechaCreacion" class="col-sm-3 col-form-label">Xisob yaratilgan sana</label>
+						<div class="col-sm-9">
+							<div class="input-group date" id="fechaCreacion">
+								<input type="date" class="form-control"
+									th:field="*{cuenta.fechaCreacion}" th:required="true" />
+							</div>
+						</div>
+					</div>
+
+                     <div class="form-group row">
+						<label for="estado" class="col-sm-3 col-form-label">Vaziyat</label>
+						<div class="col-sm-9">
+							<select class="custom-select" id="estado"
+								th:field="*{cuenta.estado}" th:required="true">
+								<option value="" selected>Iltimos tanlang...</option>
+								<option value="ACTIVA">ACTIVA</option>
+								<option value="INACTIVA">INACTIVA</option>
+							</select>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-primary form_button">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="layout/footer :: footer"></div>
+	<script type="text/javascript">
+	(function() {
+    $('.footer').css('position', $(document).height() > $(window).height() ? "inherit" : "fixed");
+})();</script>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

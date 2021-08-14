@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultimo producto</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div th:replace="layout/navbar :: navbar"></div>
+	<div class="container-fluid">
+		<div th:if="${producto != null}" class="row justify-content-center">
+			<div class="col-md-6 my-5 shadow p-4 bg-white rounded">
+				<br>
+				<h1 class="text-center">Oxirgi mahsulot qo'shildi</h1>
+				<br>
+				<div class="table-responsive">
+					<table class="table table-sm table-borderless mb-0">
+						<tbody>
+							<tr>
+								<th class="pl-0 w-25" scope="row"><strong>Kod:</strong></th>
+								<td><span th:text="${producto.codigo}"></span></td>
+							</tr>
+							<tr>
+								<th class="pl-0 w-25" scope="row"><strong>Ism:</strong></th>
+								<td><span th:text="${producto.nombre}"></span></td>
+							</tr>
+							<tr>
+								<th class="pl-0 w-25" scope="row"><strong>Narx:</strong></th>
+								<td><span th:text="${'$ ' + producto.precio}"></span></td>
+							</tr>
+							<tr>
+								<th class="pl-0 w-25" scope="row"><strong>Brend:</strong></th>
+								<td><span th:text="${producto.marca}"></span></td>
+							</tr>
+							<tr>
+								<th scope="row"><strong>Aksiya:</strong></th>
+								<td><span th:text="${producto.stock}"></span></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<br> <img class="card-img-center m-auto" width="240px"
+					th:src="*{'data:image/png;base64,'+producto.imagen}">
+				<div class="table-responsive mb-2">
+					<table class="table table-sm table-borderless">
+						<tbody>
+							<tr>
+								<td class="pl-0 pb-0 w-25"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-xs-12" style="height: 30px;"></div>
+				<button type="button" class="btn btn-primary btn-md mr-1 mb-2">Sotib Olmoq</button>
+				<button type="button" class="btn btn-light btn-md mr-1 mb-2">
+					<i class="fa fa-shopping-cart pr-2"></i>Savatchaga qo'shish
+				</button>
+				<div class="col-xs-12" style="height: 60px;"></div>
+			</div>
+		</div>
+		<div th:if="${producto == null}" class="row justify-content-center">
+			<div class="col-md-12" style="height: 20px;"></div>
+			<div class="jumbotron">
+				<div class="col-xs-12" style="height: 30px;"></div>
+				<h1 class="display-4">Hello, world!</h1>
+				<p class="lead">Bu oddiy qahramon birligi, oddiy
+					jumbotron uslubidagi qo'shimcha elementlar
+					tarkib yoki ma'lumot.</p>
+				<hr class="my-4">
+				<p>
+					Hali hech qanday mahsulot qo'shilmagan.</p>
+				<a class="btn btn-primary btn-lg" th:href="@{/}" role="button">Learn
+					more</a>
+			</div>
+			<div class="col-xs-12" style="height: 30px;"></div>
+		</div>
+	</div>
+	<div th:replace="layout/footer :: footer"></div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

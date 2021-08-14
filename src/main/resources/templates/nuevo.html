@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuevo Producto</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/forms.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}">
+</head>
+<body>
+	<div th:replace="layout/navbar.html :: navbar"></div>
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-md-7 formulario my-5 shadow p-4 bg-white rounded">
+				<form th:action="@{/producto/guardar}" th:object="${producto}"
+					method="POST" class="form_content" enctype="multipart/form-data">
+					<h1 class="form_header text-center">Yangi mahsulot</h1>
+					<br>
+					<div class="form-group row">
+						<label for="codigo" class="col-sm-2 col-form-label">
+							Kod</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="codigo"
+								placeholder="Codigo" th:field="*{codigo}" th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="nombreApellido" class="col-sm-2 col-form-label">Ism:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="nombre"
+								placeholder="Nombre" th:field="*{nombre}" th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="precio" class="col-sm-2 col-form-label">Narx</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="precio"
+								placeholder="Precio" th:field="*{precio}" th:required="true"
+								min="0" step='0.01' value='0.00'>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="marca" class="col-sm-2 col-form-label">Brend</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="marca"
+								placeholder="Marca" th:field="*{marca}" th:required="true">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="stock" class="col-sm-2 col-form-label">Aksiya</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="stock"
+								placeholder="Stock" th:field="*{stock}" min="1" value="1"
+								th:required="true">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="descripcion">Descripcion</label>
+						<textarea class="form-control" id="descripcion" rows="3"
+							th:field="*{descripcion}" th:required="true"></textarea>
+					</div>
+					<div class="form-group row">
+						<label for="file" class="col-sm-2 col-form-label">Imagen</label>
+						<div class="col-sm-10 d-flex align-items-center">
+							<label for="file" class="bttn mb-0">
+								<i class="fa fa-cloud-upload" aria-hidden="true"></i> Maxsulot
+							</label>
+							<input type="file" name="file" class="form-control-file"
+								id="file"
+								accept="image/x-png,image/gif,image/jpeg,image/png,image/jpeg"
+								style='display: none;'>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-primary form_button">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="layout/footer :: footer"></div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comprar</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" th:href="@{/css/forms.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+<body>
+	<div th:replace="layout/navbar.html :: navbar"></div>
+	<div class="container">
+		<div class="col-xs-12" style="height: 60px;"></div>
+		<div class="text-center">
+			<h2>Yangi harid</h2>
+		</div>
+		<div
+			class="row justify-content-center my-5 shadow p-3 bg-white rounded">
+			<div class="col-md-6 mb-4 mb-md-0">
+				<div id="mdb-lightbox-ui"></div>
+				<div class="mdb-lightbox">
+					<div class="row product-gallery mx-1">
+						<div class="col-12 mb-0">
+							<figure class="view overlay rounded z-depth-1 main-img">
+								<a> <img
+									th:src="*{'data:image/png;base64,'+compra.producto.imagen}"
+									class="img-fluid" alt="Responsive image" />
+								</a>
+							</figure>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<form th:action="@{/compra/guardar}" th:object="${compra}"
+					method="POST">
+					<h1 class="compra__titulo">
+						<span th:text="${compra.producto.nombre}"></span>
+					</h1>
+					<p class="mb-2 text-muted text-uppercase small"
+						th:text="${compra.producto.marca}"></p>
+					<p class="mb-2 text-muted small"
+						th:text="'Codigo: ' + ${compra.producto.codigo}"></p>
+					<input type="hidden" th:field="*{producto.codigo}"
+						th:name="${compra.producto.codigo}" />
+					<input type="hidden" th:field="*{producto.imagen}"
+						th:name="${compra.producto.imagen}" />
+					<input type="hidden" th:field="*{producto.nombre}"
+						th:name="${compra.producto.nombre}" />
+					<input type="hidden" th:field="*{producto.descripcion}"
+						th:name="${compra.producto.descripcion}" />
+					<div class="form-group">
+						<div class="table-responsive">
+							<table class="table table-sm table-borderless mb-0">
+								<tbody>
+									<tr>
+										<th class="pl-0 w-25" scope="row"><strong>Descripción:
+										</strong></th>
+										<td><span th:text="${compra.producto.descripcion}"></span></td>
+									</tr>
+									<tr>
+										<th class="pl-0 w-25" scope="row"><strong>Narx:</strong></th>
+										<td>$ <span
+											th:text="${#numbers.formatDecimal(compra.producto.precio, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
+									</tr>
+									<tr>
+										<th class="pl-0 w-25" scope="row"><strong>Delivery:
+										</strong></th>
+										<td>USA, Europe</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="table-responsive mb-2">
+							<table class="table table-sm table-borderless">
+								<tbody>
+									<tr>
+										<td class="pl-0 w-25" scope="row"><strong>Narx...
+										</strong></td>
+									</tr>
+									<tr>
+										<td><select th:if="${compra.producto.stock != 0}"
+											th:field="*{cantidad}">
+												<option
+													th:each="i : ${#numbers.sequence(1, compra.producto.stock)}"
+													th:value="${i}" th:text="${i}">Disponibles</option>
+										</select> <span th:text="${compra.producto.stock} + ' Disponibles'"></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary btn-md mr-1 mb-2"
+						th:disabled="${compra.producto.stock == 0}">Hozir xarid qilish</button>
+					<a th:href="@{/productos}" class="btn btn-light btn-md mr-1 mb-2">Qaytish</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12" style="height: 120px;"></div>
+	<div th:replace="layout/footer :: footer"></div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

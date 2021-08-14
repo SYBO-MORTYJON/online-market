@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compras</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/footer.css}">
+</head>
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}"></link>
+<body>
+	<div th:replace="layout/navbar :: navbar"></div>
+	<div>
+		<div class="col-xs-12" style="height: 60px;"></div>
+		<div th:if="${compras.size > 0}" class="container-fluid">
+			
+			<div class="row-fluid">
+			
+				<div class="col-12">
+				<h2>Xarid qilish</h2>
+					<table class="table table-bordered table-responsive p-3">
+						<thead class="thead-dark">
+							<tr class="text-center">
+								<th style="width: 6%">ID</th>
+								<th>Maxsulot</th>
+								<th>Description</th>
+								<th style="width: 9%">Rasm</th>
+								<th style="width: 10%">Miqdor</th>
+								<th style="width: 11%">Umumiy</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="compra : ${compras}">
+								<td th:text="${compra.id}"></td>
+								<td th:text="${compra.producto.nombre}"></td>
+								<td th:text="${compra.producto.descripcion}"></td>
+								<td><img class="card-img-top m-auto"
+									th:src="*{'data:image/png;base64,'+compra.producto.imagen}"></td>
+								<td th:text="${compra.cantidad}"></td>
+								<td>$ <span
+									th:text="${#numbers.formatDecimal(compra.total, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:if="${compras.size == 0}"
+		class="container-fluid">
+		<div class="row justify-content-center text-center">
+			<div class="col-9">
+				<h4>Don't you see! - ZARD</h4>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item"
+						src="https://www.youtube.com/embed/j9rax18IghI"></iframe>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class="col-xs-12" style="height: 30px;"></div>
+	<div th:replace="layout/footer :: footer"></div>
+	<div th:if="${compras.size == 0}" class="cookie-container text-center">
+		<p>
+			Hali hech qanday xarid qayd etilmagan, rohatlaning<a
+				href="https://www.youtube.com/watch?v=j9rax18IghI" id="selectedLink"
+				target="_blank">video.</a>
+		</p>
+		<button class="cookie-btn">
+			<span aria-hidden="true">x</span>
+		</button>
+	</div>
+	<script type="text/javascript">
+	const cookieContainer = document.querySelector(".cookie-container");
+	const cookieButton = document.querySelector(".cookie-btn");
+
+	cookieButton.addEventListener("click", () => {
+ 	cookieContainer.classList.remove("active");
+ 	localStorage.setItem("cookieBannerDisplayed", "true");
+	});
+
+	setTimeout(() => {
+  	if (!localStorage.getItem("cookieBannerDisplayed")) {
+    cookieContainer.classList.add("active");
+  	}
+}, 2000);</script>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>

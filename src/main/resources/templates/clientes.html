@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabla Clientes</title>
+<link rel="stylesheet"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	th:href="@{/webjars/fontawesome/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/css/footer.css}">
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+	<div th:replace="layout/navbar :: navbar"></div>
+	<div class="container-fluid">
+		<div class="col-xs-12" style="height: 30px;"></div>
+		<h2>CLIENTES</h2>
+		<div class="col-12">
+			<table class="table table-bordered table-responsive p-3">
+				<thead class="thead-dark">
+					<tr class="text-center">
+						<th style="width: 6%">ID</th>
+						<th>Hujjat turi</th>
+						<th>Hujjat raqami</th>
+						<th>Ism familiyasi</th>
+						<th>Pochta</th>
+						<th>Parol</th>
+						<th>Tug'ilgan vaqti</th>
+						<th>Telefon</th>
+						<th>Oxirgi xarid</th>
+						<th>Xisob xolati</th>
+						<th style="width: 10%">Balans</th>
+						<th style="width: 6%">Edit</th>
+						<th style="width: 6%">Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="cliente : ${clientes}">
+						<td th:text="${cliente.id}"></td>
+						<td th:text="${cliente.tipoDocumento}"></td>
+						<td th:text="${cliente.nroDocumento}"></td>
+						<td th:text="${cliente.nombreApellido}"></td>
+						<td th:text="${cliente.email}"></td>
+						<td th:text="${cliente.password}"></td>
+						<td th:text="${cliente.fechaNacimiento}"></td>
+						<td
+							th:text="${cliente.codigoAreaTelefono} + '-' + ${cliente.nroTelefono}"></td>
+						<td th:text="${cliente.fechaUltimaCompra}"></td>
+						<td th:text="${cliente.cuenta.estado}"></td>
+						
+						
+						<td>$ <span
+								th:text="${#numbers.formatDecimal(cliente.cuenta.saldo, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
+							
+						
+						
+						<td><a data-toggle="modal" data-target="#updateModal"
+							class="btn btn-warning"
+							th:attr="data-target='#updateModal'+${cliente.id}"><i
+								class="fa fa-edit"></i> </a> <!--#Modal form for Cliente update-->
+							<div class="myFormUpdate">
+								<form th:action="@{/cliente/update}" method="POST"
+									class="form_content" enctype="multipart/form-data">
+									<div class="modal fade" th:id="updateModal+${cliente.id}"
+										id="updateModal" tabindex="-1" role="dialog"
+										aria-labelledby="updateModalLabel" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title" id="updateModalLabel">Update
+														Cliente</h4>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="form-group">
+														<input type="hidden" class="form-control" id="id"
+															th:name="id" th:value="*{cliente.id}" />
+													</div>
+													<div class="form-group">
+														<label for="tipoDocumento" class="col-form-label">Tipo
+															Documento</label>
+														<select class="custom-select" id="tipoDocumento"
+															th:name="tipoDocumento" th:required="true">
+															<option th:value="*{cliente.tipoDocumento}" selected>Iltimos tanlng...</option>
+															<option value="DNI">DNI</option>
+															<option value="Pasaporte">Pasaporte</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<label for="numeroDocumento" class="col-form-label">Document nomeri</label>
+														<!-- th:value es el placeholder ctmm!! -->
+														<input type="number" class="form-control"
+															id="numeroDocumento" th:name="nroDocumento"
+															th:value="*{cliente.nroDocumento}" th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="nombreApellido" class="col-form-label">Ism familiyasi</label>
+														<input type="text" class="form-control"
+															id="nombreApellido" th:name="nombreApellido"
+															th:value="*{cliente.nombreApellido}" th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="email" class="col-form-label">Pochta</label>
+														<input type="email" class="form-control" id="email"
+															th:name="email" th:value="*{cliente.email}"
+															th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="password" class="col-form-label">Password</label>
+														<input type="password" class="form-control" id="password"
+															th:name="password" th:value="*{cliente.password}"
+															th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="fechaNacimiento" class="col-form-label">Tug'ilgan sana</label>
+														<div class="input-group date" id="fechaNacimiento">
+															<input type="date" class="form-control"
+																th:name="fechaNacimiento"
+																th:value="*{cliente.fechaNacimiento}" th:required="true" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="codigoAreaTelefono" class="col-form-label">yashash joyi kodi</label>
+														<input type="number" class="form-control"
+															id="codigoAreaTelefono" th:name="codigoAreaTelefono"
+															th:value="*{cliente.codigoAreaTelefono}"
+															th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="numeroTelefono" class="col-form-label">Telefon</label>
+														<input type="number" class="form-control"
+															id="numeroTelefono" placeholder="Telefono"
+															th:name="nroTelefono" th:value="*{cliente.nroTelefono}"
+															th:required="true">
+													</div>
+													<div class="form-group">
+														<label for="fechaUltimaCompra" class="col-form-label">Oxirgi xarid vaqti</label>
+														<div class="input-group date" id="fechaUltimaCompra">
+															<input type="date" class="form-control"
+																th:name="fechaUltimaCompra"
+																th:value="*{cliente.fechaUltimaCompra}"
+																th:required="true" />
+														</div>
+														<input type="hidden" class="form-control" id="id"
+															th:name="cuenta.id" th:value="*{cliente.cuenta.id}" />
+														<input type="hidden" class="form-control" id="id"
+															th:name="cuenta.fechaCreacion"
+															th:value="*{cliente.cuenta.fechaCreacion}" />
+														<div class="form-group">
+															<label for="cuentaEstado" class="col-form-label">Xisob</label>
+															<select class="custom-select" id="cuentaEstado"
+																th:name="cuenta.estado" th:required="true">
+																<option th:value="*{cliente.cuenta.estado}" selected><span th:text="${cliente.cuenta.estado}"></span></option>
+																<option th:if="${#strings.toString(cliente.cuenta.estado)} == 'INACTIVA'" value="ACTIVA">ACTIVA</option>
+																<option th:if="${#strings.toString(cliente.cuenta.estado)} == 'ACTIVA'" value="INACTIVA">INACTIVA</option>
+															</select>
+														</div>
+														<div class="form-group">
+															<label for="saldo" class="col-form-label">Balans</label>
+															<input type="number" class="form-control" id="saldo"
+																th:name="cuenta.saldo"
+																th:value="*{cliente.cuenta.saldo}" th:required="true">
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">Close</button>
+													<input type="submit" class="btn btn-primary" value="Save" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div></td>
+						<td><a data-toggle="modal" data-target="#removeModal"
+							class="btn btn-danger delBtn"
+							th:attr="data-target='#removeModal'+${cliente.id}"><i
+								class="fa fa-trash"></i> </a> <!-- #Modal for removing -->
+							<div class="modal fade" th:id="removeModal+${cliente.id}"
+								id="removeModal" tabindex="-1" role="dialog"
+								aria-labelledby="removeModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="removeModalCenterTitle">Mijozni ochirish</h4>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<p class="alert alert-danger">
+												Are you sure you want to delete <span
+													th:text="${cliente.nombreApellido}"></span>?
+											</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+											<a th:href="@{/cliente/delete/{id}(id=${cliente.id})}"
+												class="btn btn-danger" id="delRef">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- Pagination -->
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<nav aria-label="Pagination">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"
+								th:classappend="${prev == 0 ? 'disabled': ''}"><a
+								class="page-link" th:href="@{|/clientes/?page=${prev}|}">Oldingi</a></li>
+							<li class="page-item" th:each="page : ${pages}"
+								th:classappend="${current == page ? 'active': ''}"><a
+								class="page-link" th:href="@{|/clientes/?page=${page}|}"
+								th:text="${page}"></a></li>
+							<li class="page-item"
+								th:classappend="${current == last ? 'disabled': ''}"><a
+								class="page-link" th:href="@{|/clientes/?page=${next}|}">Keyingis</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div class="col-md-2"></div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div th:replace="layout/footer :: footer"></div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</html>
